@@ -20,7 +20,7 @@ So decoded it is: abcd
 This could probably be cracked in the span of about 10 seconds
 """
 
-
+ 
 def encode():
     encode_in = input("What is the message you would like to encode? ")
 
@@ -32,7 +32,7 @@ def decode():
 
 
 
-code_type = input("Would you like to encode or decode? e/d")
+code_type = input("Would you like to encode or decode? e/d ")
 
 if code_type == "e":
     encode()
