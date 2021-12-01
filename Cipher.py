@@ -30,50 +30,43 @@ Once you know how it works, all the data is there to decode it.
 """
 
 
-# options
-
-
 #string.printable 
-chars = string.printable    # possible key characters
+#chars = string.printable    # possible key characters
+chars = string.ascii_letters
 
 
 # storage
-random_key = []     # final key
+alphabet = string.ascii_lowercase #string.ascii_lowercase
+random_key = ""     # final key
 encoded_msg = ""    # message to decode 
+decoded_msg = ""
+
+rand_char_count = len(alphabet)
+# not done
+def decode():
+    global encoded_msg
+    decode_in = input("What is the message you would like to decode? ")
+    decode_key = input("Enter the key: ")
 
 
 def encode():
-    chars = string.printable
-      
-    for i in range(26):     
+    global encoded_msg
+
+    for i in range(rand_char_count):     
         char_choice = random.sample(chars, 1)
-        random_key.append(char_choice)
+        random_key = char_choice
+ 
 
-print("Your key is: ", *random_key, sep = "")
-print(*random_key, sep = "")
-
-
-
-"""    # random key, makes sure chars arent repeated. that would break decode
-    result_str = "".join(random.sample(chars, 26))
-    print(result_str)
-        """
-    
-    
-    
+    encode_in = input("What is the message you would like to encode? ")
 
 
+    for letter in encode_in:
+        if letter.lower() in alphabet:
+            encoded_msg += random_key[alphabet.find(letter.lower())]
+        else: encoded_msg += letter
 
-
-#print("Your key is: ", *random_key, sep = "")
-#print("Your encoded message is: " + encoded_msg)
-
-
-
-
-def decode():
-    decode_in = input("What is the message you would like to decode? ")
-    decode_key = input("Enter the key: ")
+    print("Encoded message: " + encoded_msg)
+    print("Your key is: ", *random_key, sep = "")
 
 
 code_type = input("Would you like to encode or decode? e/d ")
@@ -82,3 +75,7 @@ if code_type == "e":
     encode()
 elif code_type == "d":
     decode()
+else:
+    print("Invalid input")
+
+
