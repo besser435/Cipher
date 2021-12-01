@@ -1,13 +1,12 @@
 
 version = "v1.0"
-
-
 import string
 import random
-
-
 """
 NOTE
+"Encryption is poggers" -Alan Turing, probably
+
+
 This is a very simple method I came up with, but I'm sure its already been discovered and has a proper name
 
 
@@ -33,47 +32,58 @@ Once you know how it works, all the data is there to decode it.
 #string.printable 
 #chars = string.printable    # possible key characters
 chars = string.ascii_letters
+rand_char_count = len(chars)
 
 
-# storage
-alphabet = string.ascii_lowercase #string.ascii_lowercase
-random_key = ""     # final key
-encoded_msg = ""    # message to decode 
-decoded_msg = ""
-
-rand_char_count = len(alphabet)
-# not done
 def decode():
-    global encoded_msg
-    decode_in = input("What is the message you would like to decode? ")
+    to_decode = input("What is the message you would like to decode? ")
     decode_key = input("Enter the key: ")
 
 
+
+
+
+
+
+
+    #print("Decoded message: " + decoded_msg)
+
+
+
 def encode():
-    global encoded_msg
+    random_key = []     
+    encoded_msg = ""    # the final message
+    msg_in = input("What is the message you would like to encode? ")    # what to encode
+
 
     for i in range(rand_char_count):     
         char_choice = random.sample(chars, 1)
-        random_key = char_choice
- 
-
-    encode_in = input("What is the message you would like to encode? ")
+        random_key.append(char_choice)
 
 
-    for letter in encode_in:
-        if letter.lower() in alphabet:
-            encoded_msg += random_key[alphabet.find(letter.lower())]
-        else: encoded_msg += letter
+    list_t_str = "".join([str(elem) for elem in random_key])
+    #list_t_str = str(random_key)    # list to string for the thing below
+
+    
+    for letter in msg_in:
+        if letter.lower() in chars:
+            encoded_msg += list_t_str[chars.find(letter.lower())]   
+        else:
+            encoded_msg += letter
+
 
     print("Encoded message: " + encoded_msg)
-    print("Your key is: ", *random_key, sep = "")
+    print()
+    #print("Your key is: ", *encode_key, sep = "")
 
 
-code_type = input("Would you like to encode or decode? e/d ")
 
-if code_type == "e":
+
+action = input("Would you like to encode or decode? e/d ")
+
+if action == "e":
     encode()
-elif code_type == "d":
+elif action == "d":
     decode()
 else:
     print("Invalid input")
