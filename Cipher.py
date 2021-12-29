@@ -8,6 +8,8 @@ def notes():
     Decoder takes key, see what letter/number/symbol is assigned to the alphabet’s letter, and then decodes the message
     If I'm not mistaken, its a type of a transposition cipher.
 
+    I'm hesitant to call it encrytion.
+
 
     Message: abcd
     key: a = g, b = 1, c = z, d = & 
@@ -21,13 +23,14 @@ def notes():
     This could probably be cracked in the span of about 0.00000000001 seconds.
 
     """
-version = "v0.2 (unbunged version of 0.1)"
-debug = 0
+version = "v1.0 beta (functional, but buggy)"
+debug = 1
 
 
 import random
 import string
-import os
+import time
+import os   
 
 def main():
     def cc():   # shortens long command to just cc()
@@ -38,7 +41,7 @@ def main():
         global plain_in_char_count
         global plain_in
 
-        plain_in = "Hello World"
+        plain_in = input("Input your message to encode: ")
         plain_in_char_count = len(plain_in)
     
 
@@ -47,69 +50,73 @@ def main():
         global random_chars
         global key_out
 
+
         # all the characters that can make up the key
-        all_chars = list(string.ascii_letters + string.digits + 
-        string.punctuation)  # string.printable create problems. thats why this war crime soup is being used
+        all_chars = list(string.ascii_letters + string.digits + string.punctuation)  # string.printable create problems. thats why this war crime soup is being used
+
 
         # same thing as above but randomized
         random.shuffle(all_chars)
         shuffled_chars = "".join(all_chars)
 
+        key_out = shuffled_chars
+        
+        def no():
+            """
+            Ideas:
+            maybe the encoder could prefix the key with a number.
+            That number would indicate how far in the key is
 
-        key_out = all_chars[0:26] 
-        """
-        Ideas:
-        Try getting rid of limit, maybe the encoder could prefix the key with a number.
-        That number would indicate how far in the key is
+            Maybe generate random length caracter chunks, and randomly assign a chunk to a letter
 
-        Maybe generate random length caracter chunks, and randomly assign a chunk to a letter
-
-        Combine the two
-        This is awful
-        Do the above ideas actually improve security? Probably not.
-        """
+            Combine the two
+            This is awful
+            Do the above ideas actually improve security? Probably not.
+            """
 
     
-    def encode_msg(key):
+    def encode_msg(key_out):
+        global alphabet
+        alphabet = string.ascii_letters + string.digits + string.punctuation #+ " " does this add cypertext so spaces can be decrypted?
         
-        cyphertext = "" # final message
+        encode = dict(zip(alphabet, key_out))
+        cyphertext = "".join([encode.get(ch, ch) for ch in plain_in])
 
-        print(key)
         
-        
-        
-        
-        print("Your key is: ", end="") 
+        print("Your key is:", end="") 
         print(*key_out, sep="")
-        print("Your encoded message is: ")
+        print("Your encoded message is:" + cyphertext)
         print()
         input("Press enter to continue")
         cc()
         menu()
 
-
+        
     def decode_msg():
-        pass
+        alphabet = string.ascii_letters + string.digits + string.punctuation #+ " " does this add cypertext so spaces can be decrypted?
+        cyphertex_decode_key = input("Input your key: ")
+        cyphertex_decode = input("Input your message to decode: ")
 
+        decode = dict(zip(alphabet, cyphertex_decode_key))
+        plain_out = "".join([decode.get(ch, ch) for ch in cyphertex_decode])
+        print(plain_out)
+        
 
-    def print_debug():    # stuff to print if debug moce is enabled
+    """    def print_debug():    # in a bad state right now. Because this project is pretty simple, this isnt really needed.
         global debug
         if debug:
-            print()
-            print("DEBUG:")
+            print("DEBUG: ")
             print(version)
             print("Plain text input: " + plain_in)
             print("Input char count: " + str(plain_in_char_count))
             print("All chars shuffled: " + shuffled_chars)
             print()
-
+    """
 
     def menu():
-        
-
         print("Besser's redneck encryption. 100% secure, I would never lie.")
-        print_debug()
         print(version)
+        
 
         ask_type = input("Would you like to encode or decode a message? e/d ")
         if ask_type == "e":
@@ -117,13 +124,17 @@ def main():
             plain_text_setup()
             key_gen()
             encode_msg(key_out)
-
+            
         elif ask_type == "d":
-            pass
+            cc()
+            decode_msg()
 
         else:
-            pass
+            cc()
+            print("Invalid input")
+            main()
 
-
+            
     menu()
+    
 main()
